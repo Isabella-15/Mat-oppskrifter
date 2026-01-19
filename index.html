@@ -2,19 +2,19 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8">
-<title>Matoppskrifter</title>
+<title>Oppskriftsapp</title>
 
 <style>
     body {
-        font-family: Arial, sans-serif;
         margin: 0;
-        background: #f4f4f4;
+        font-family: Arial, sans-serif;
+        background: #f2f2f2;
     }
 
     header {
         background: #ff7043;
         color: white;
-        padding: 20px;
+        padding: 25px;
         text-align: center;
     }
 
@@ -28,51 +28,66 @@
     }
 
     input, select {
-        padding: 8px;
+        padding: 10px;
         font-size: 16px;
+        width: 220px;
     }
 
     .container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 15px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
         padding: 20px;
     }
 
     .recipe {
         background: white;
-        border-radius: 8px;
+        border-radius: 10px;
         padding: 15px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        cursor: pointer;
     }
 
-    .recipe h3 {
-        margin-top: 0;
+    .recipe:hover {
+        transform: scale(1.02);
     }
 
     .tag {
         display: inline-block;
         background: #eee;
-        padding: 4px 8px;
-        border-radius: 4px;
+        padding: 5px 10px;
+        border-radius: 20px;
         font-size: 12px;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
+    }
+
+    .details {
+        display: none;
+        margin-top: 10px;
+    }
+
+    ul {
+        padding-left: 20px;
+    }
+
+    ol {
+        padding-left: 20px;
     }
 </style>
 </head>
 <body>
 
 <header>
-    <h1>🍽️ Matoppskrifter</h1>
-    <p>Finn noe godt å lage i dag</p>
+    <h1>🍽️ Oppskriftsapp</h1>
+    <p>Finn, lag og nyt god mat</p>
 </header>
 
 <div class="controls">
-    <input type="text" id="search" placeholder="Søk etter oppskrift...">
+    <input type="text" id="search" placeholder="Søk etter oppskrift">
     <select id="category">
-        <option value="alle">Alle kategorier</option>
-        <option value="middag">Middag</option>
+        <option value="alle">Alle</option>
         <option value="frokost">Frokost</option>
+        <option value="middag">Middag</option>
         <option value="dessert">Dessert</option>
         <option value="vegetar">Vegetar</option>
     </select>
@@ -82,36 +97,124 @@
 
 <script>
 const recipes = [
-    {
-        title: "Spaghetti Bolognese",
-        category: "middag",
-        ingredients: "Kjøttdeig, tomat, løk, spaghetti",
-        description: "Klassisk italiensk middag."
-    },
-    {
-        title: "Pannekaker",
-        category: "frokost",
-        ingredients: "Mel, melk, egg",
-        description: "Perfekt til frokost eller dessert."
-    },
-    {
-        title: "Vegetar Tikka Masala",
-        category: "vegetar",
-        ingredients: "Kikerter, tomat, krydder",
-        description: "Smakfull vegetarrett."
-    },
-    {
-        title: "Sjokoladekake",
-        category: "dessert",
-        ingredients: "Kakao, mel, sukker",
-        description: "Saftig og enkel sjokoladekake."
-    },
-    {
-        title: "Kyllingwok",
-        category: "middag",
-        ingredients: "Kylling, grønnsaker, soyasaus",
-        description: "Rask og sunn middag."
-    }
+{
+    title: "Spaghetti Bolognese",
+    category: "middag",
+    ingredients: [
+        "400 g kjøttdeig",
+        "1 løk",
+        "2 fedd hvitløk",
+        "1 boks hakkede tomater",
+        "Spaghetti",
+        "Salt og pepper"
+    ],
+    steps: [
+        "Kok spaghetti etter anvisning.",
+        "Stek løk og hvitløk i panne.",
+        "Tilsett kjøttdeig og brun.",
+        "Ha i tomater og la småkoke 15 minutter.",
+        "Smak til med salt og pepper."
+    ]
+},
+{
+    title: "Pannekaker",
+    category: "frokost",
+    ingredients: [
+        "2 egg",
+        "3 dl melk",
+        "2 dl mel",
+        "1 ss sukker",
+        "Smør til steking"
+    ],
+    steps: [
+        "Visp sammen egg og melk.",
+        "Tilsett mel og sukker.",
+        "Stek tynne pannekaker i panne.",
+        "Server med syltetøy."
+    ]
+},
+{
+    title: "Kyllingwok",
+    category: "middag",
+    ingredients: [
+        "400 g kylling",
+        "Wokgrønnsaker",
+        "Soyasaus",
+        "Olje"
+    ],
+    steps: [
+        "Skjær kyllingen i biter.",
+        "Stek kyllingen i varm panne.",
+        "Tilsett grønnsaker.",
+        "Ha i soyasaus og stek 5 minutter."
+    ]
+},
+{
+    title: "Vegetar Chili",
+    category: "vegetar",
+    ingredients: [
+        "1 boks bønner",
+        "1 løk",
+        "1 paprika",
+        "Chilikrydder",
+        "Tomater"
+    ],
+    steps: [
+        "Stek løk og paprika.",
+        "Tilsett bønner og tomater.",
+        "Krydre med chili.",
+        "La småkoke 20 minutter."
+    ]
+},
+{
+    title: "Sjokoladekake",
+    category: "dessert",
+    ingredients: [
+        "3 egg",
+        "2 dl sukker",
+        "2 dl mel",
+        "3 ss kakao",
+        "1 ts bakepulver"
+    ],
+    steps: [
+        "Visp egg og sukker.",
+        "Bland inn tørre ingredienser.",
+        "Stek på 180°C i 30 min.",
+        "Avkjøl før servering."
+    ]
+},
+{
+    title: "Omelett",
+    category: "frokost",
+    ingredients: [
+        "3 egg",
+        "Litt melk",
+        "Ost",
+        "Salt og pepper"
+    ],
+    steps: [
+        "Visp egg og melk.",
+        "Hell i panne.",
+        "Tilsett ost.",
+        "Stek til fast."
+    ]
+},
+{
+    title: "Taco",
+    category: "middag",
+    ingredients: [
+        "Kjøttdeig",
+        "Tacokrydder",
+        "Lefser",
+        "Grønnsaker"
+    ],
+    steps: [
+        "Stek kjøttdeig.",
+        "Tilsett krydder.",
+        "Varm lefsene.",
+        "Fyll og server."
+    ]
+}
 ];
 
 const recipesDiv = document.getElementById("recipes");
@@ -119,28 +222,36 @@ const searchInput = document.getElementById("search");
 const categorySelect = document.getElementById("category");
 
 function renderRecipes() {
-    const searchText = searchInput.value.toLowerCase();
+    const text = searchInput.value.toLowerCase();
     const category = categorySelect.value;
 
     recipesDiv.innerHTML = "";
 
-    recipes
-        .filter(r =>
-            r.title.toLowerCase().includes(searchText) &&
-            (category === "alle" || r.category === category)
-        )
-        .forEach(r => {
-            const div = document.createElement("div");
-            div.className = "recipe";
-            div.innerHTML = `
-                <span class="tag">${r.category}</span>
-                <h3>${r.title}</h3>
+    recipes.filter(r =>
+        r.title.toLowerCase().includes(text) &&
+        (category === "alle" || r.category === category)
+    ).forEach(r => {
+        const div = document.createElement("div");
+        div.className = "recipe";
+
+        div.innerHTML = `
+            <span class="tag">${r.category}</span>
+            <h3>${r.title}</h3>
+            <div class="details">
                 <strong>Ingredienser:</strong>
-                <p>${r.ingredients}</p>
-                <p>${r.description}</p>
-            `;
-            recipesDiv.appendChild(div);
+                <ul>${r.ingredients.map(i => `<li>${i}</li>`).join("")}</ul>
+                <strong>Fremgangsmåte:</strong>
+                <ol>${r.steps.map(s => `<li>${s}</li>`).join("")}</ol>
+            </div>
+        `;
+
+        div.addEventListener("click", () => {
+            const details = div.querySelector(".details");
+            details.style.display = details.style.display === "block" ? "none" : "block";
         });
+
+        recipesDiv.appendChild(div);
+    });
 }
 
 searchInput.addEventListener("input", renderRecipes);
